@@ -39,6 +39,11 @@ const GLuint WIDTH = 1000, HEIGHT = 1000;
 
 bool rotateX=false, rotateY=false, rotateZ=false;
 
+//Variáveis de controle da câmera
+glm::vec3 cameraPos = glm::vec3(0.0, 0.0, 3.0);
+glm::vec3 cameraFront = glm::vec3(0.0, 0.0, -1.0);
+glm::vec3 cameraUp = glm::vec3(0.0, 1.0, 0.0);
+
 // Função MAIN
 int main()
 {
@@ -97,14 +102,18 @@ int main()
 	glm::mat4 model = glm::mat4(1); //matriz identidade;
 	model = glm::rotate(model, /*(GLfloat)glfwGetTime()*/glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	shader.setMat4("model", glm::value_ptr(model));
-	
+
 
 	//Criando a matriz de projeção
 	glm::mat4 projection = glm::mat4(1); //matriz identidade;
-	projection = glm::ortho(-10.0, 10.0, -10.0, 10.0 , -1.0, 1.0);
+	//projection = glm::ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+	projection = glm::perspective(glm::radians(40.0f), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 	shader.setMat4("projection", glm::value_ptr(projection));
-	
-	
+
+	//Criando a matriz de view
+	glm::mat4 view = glm::lookAt(cameraPos, glm::vec3(0.0, 0.0, 0.0), cameraUp);
+	shader.setMat4("view", glm::value_ptr(view));
+
 	glEnable(GL_DEPTH_TEST);
 
 
@@ -123,12 +132,15 @@ int main()
 
 		float angle = (GLfloat)glfwGetTime();
 
-		model = glm::mat4(1); 
+		model = glm::mat4(1);
+
+		float offset = cos((GLfloat)glfwGetTime());
+		//model = glm::translate(model, glm::vec3(0.0, 0.0, offset));
 
 		if (rotateX)
 		{
 			model = glm::rotate(model, angle, glm::vec3(1.0f, 0.0f, 0.0f));
-			
+
 		}
 		else if (rotateY)
 		{
@@ -142,6 +154,9 @@ int main()
 		}
 
 		shader.setMat4("model", glm::value_ptr(model));
+
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		shader.setMat4("view", glm::value_ptr(view));
 		
 		// Chamada de desenho - drawcall
 		// Poligono Preenchido - GL_TRIANGLES
@@ -192,6 +207,17 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		rotateX = false;
 		rotateY = false;
 		rotateZ = true;
+	}
+
+	float cameraSpeed = 0.05;
+
+	if (key == GLFW_KEY_W)
+	{
+		cameraPos += cameraSpeed * cameraFront;
+	}
+	if (key == GLFW_KEY_S)
+	{
+		cameraPos -= cameraSpeed * cameraFront;
 	}
 
 
