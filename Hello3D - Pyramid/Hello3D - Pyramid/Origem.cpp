@@ -40,8 +40,8 @@ const GLuint WIDTH = 1000, HEIGHT = 1000;
 bool rotateX=false, rotateY=false, rotateZ=false;
 
 //Variáveis de controle da câmera
-glm::vec3 cameraPos = glm::vec3(0.0, 0.0, 3.0);
-glm::vec3 cameraFront = glm::vec3(0.0, 0.0, -1.0);
+glm::vec3 cameraPos = glm::vec3(0.0, 0.0, -3.0);
+glm::vec3 cameraFront = glm::vec3(0.0, 0.0, 1.0);
 glm::vec3 cameraUp = glm::vec3(0.0, 1.0, 0.0);
 
 // Função MAIN
@@ -106,12 +106,13 @@ int main()
 
 	//Criando a matriz de projeção
 	glm::mat4 projection = glm::mat4(1); //matriz identidade;
-	//projection = glm::ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+	//projection = glm::ortho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
 	projection = glm::perspective(glm::radians(40.0f), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 	shader.setMat4("projection", glm::value_ptr(projection));
 
 	//Criando a matriz de view
-	glm::mat4 view = glm::lookAt(cameraPos, glm::vec3(0.0, 0.0, 0.0), cameraUp);
+	glm::mat4 view = glm::mat4(1);
+	view = glm::lookAt(cameraPos, glm::vec3(0.0, 0.0, 0.0), cameraUp);
 	shader.setMat4("view", glm::value_ptr(view));
 
 	glEnable(GL_DEPTH_TEST);
@@ -135,7 +136,7 @@ int main()
 		model = glm::mat4(1);
 
 		float offset = cos((GLfloat)glfwGetTime());
-		//model = glm::translate(model, glm::vec3(0.0, 0.0, offset));
+		model = glm::translate(model, glm::vec3(0.0, 0.0, offset));
 
 		if (rotateX)
 		{
