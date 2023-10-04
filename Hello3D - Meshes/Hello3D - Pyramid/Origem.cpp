@@ -105,7 +105,8 @@ int main()
 
 	// Gerando um buffer simples, com a geometria de um triângulo
 	int nVerts;
-	GLuint VAO = loadSimpleOBJ("../../3DModels/suzanneTriLowPoly.obj", nVerts);
+	//GLuint VAO = loadSimpleOBJ("../../3DModels/Suzannes/suzanneTriLowPoly.obj", nVerts);
+	GLuint VAO = loadSimpleOBJ("../../3DModels/Classic-NoTexture/bunny.obj", nVerts);
 
 
 	glUseProgram(shader.ID);
@@ -170,7 +171,17 @@ int main()
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		shader.setMat4("view", glm::value_ptr(view));
-		
+
+
+		//Ideia com a classe mesh
+		/*objeto1.update();
+		objeto1.draw();
+
+		for ...
+			objeto[i].update();
+		    objeto[i].draw();*/
+
+
 		// Chamada de desenho - drawcall
 		// Poligono Preenchido - GL_TRIANGLES
 		glBindVertexArray(VAO);
