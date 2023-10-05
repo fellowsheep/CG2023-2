@@ -106,7 +106,8 @@ int main()
 	// Gerando um buffer simples, com a geometria de um triângulo
 	int nVerts;
 	//GLuint VAO = loadSimpleOBJ("../../3DModels/Suzannes/suzanneTriLowPoly.obj", nVerts);
-	GLuint VAO = loadSimpleOBJ("../../3DModels/Classic-NoTexture/bunny.obj", nVerts);
+	//GLuint VAO = loadSimpleOBJ("../../3DModels/Classic-NoTexture/bunny.obj", nVerts);
+	GLuint VAO = loadSimpleOBJ("../../3DModels/NaveET/NaveET.obj", nVerts);
 
 
 	glUseProgram(shader.ID);
