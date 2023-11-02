@@ -29,7 +29,7 @@ utils::NoiseMap BuildAHeightMap (int w, int h, float *bounds) {
 	module::Perlin myModule;
 
 	myModule.SetFrequency(2.0);
-	myModule.SetOctaveCount(2);
+	myModule.SetOctaveCount(6);
 	myModule.SetPersistence(0.5);
 
 
@@ -115,13 +115,13 @@ int main (int argc, char** argv)
 	srand(time(0));
 	
 	utils::NoiseMap heightMap;
-	float bounds[4] = {2.0, 6.0, -3.0, 1.0};
+	float bounds[4] = {2.0, 6.0, 1.0, 5.0};
 	
 	//Modo padrão
-	heightMap = BuildAHeightMap(512, 512, bounds);
+	//heightMap = BuildAHeightMap(512, 512, bounds);
 
 	//Para criar o mapa com projeção esférica
-	//heightMap = BuildASphericalHeightMap(1024, 512);
+	heightMap = BuildASphericalHeightMap(1024, 512);
 	
 	
 	RenderHeightMap(heightMap,"../example.bmp");
